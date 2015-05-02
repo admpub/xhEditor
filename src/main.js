@@ -116,6 +116,13 @@
 		if(settings.tools.match(/^\s*(m?full|simple|mini)\s*$/i))
 		{
 			var toolsTheme=toolsThemes[$.trim(settings.tools)];
+			/*[SWH|+]:*/
+			if(settings.delBtns){
+				var regex=new RegExp('(^|,)('+settings.delBtns.replace(/[\s]*,[\s]*/g,'|')+')(,|$)','ig');
+				toolsTheme=toolsTheme.replace(regex,',');
+				toolsTheme=toolsTheme.replace(/(^,|,$)/g,'');
+			}
+			/*[SWH|+];*/
 			settings.tools=(settings.tools.match(/m?full/i)&&plugins)?toolsTheme.replace('Table','Table,'+strPlugins):toolsTheme;//插件接在full的Table后面
 		}
 		//如需删除关于按钮，请往官方网站购买商业授权：http://xheditor.com/service
@@ -1446,13 +1453,24 @@
 						sTemplate+=' />';
 						for(var i in aUrl)
 						{
+							/*[SWH|+]:*/
+							if(typeof(aUrl[i])!='string'){
+								continue;
+							}
+							/*[SWH|+];*/
 							url=aUrl[i];
 							if(url!=='')
 							{
 								url=url.split('||');
 								sImg=sTemplate;
 								sImg=sImg.replace('xhe_tmpurl',url[0]);
-								if(url[1])sImg='<a href="'+url[1]+'" target="_blank">'+sImg+'</a>'
+								if(url[1])sImg='<a href="'+url[1]+'" target="_blank">'+sImg+'</a>';
+								/*[SWH|+]:*/
+								if(url[2]){
+									sImg=sImg.replace(/ alt=".*"/ig,' ');
+									sImg=sImg.replace(/<img /i,'<img alt="'+decodeURIComponent(url[2])+'" ');
+								}
+								/*[SWH|+];*/
 								arrImg.push(sImg);
 							}
 						}
@@ -1470,6 +1488,9 @@
 								jParent=$('img[src$="#xhe_tmpurl"]',_doc);
 							}
 							xheAttr(jParent,'src',url[0]);
+							/*[SWH|+]:*/
+							if(url[2])sAlt=decodeURIComponent(url[2]);
+							/*[SWH|+];*/
 							if(sAlt!=='')jParent.attr('alt',sAlt);
 							if(sAlign!=='')jParent.attr('align',sAlign);
 							else jParent.removeAttr('align');
@@ -2305,6 +2326,9 @@
 	XHEDITOR.settings = {
 	    skin: 'default',
 	    tools: 'full',
+		/*[SWH|+]:*/
+		delBtns: '',
+		/*[SWH|+];*/
 	    clickCancelDialog: true,
 	    linkTag: false,
 	    internalScript: false,
