@@ -10,14 +10,12 @@
 <script type="text/javascript" src="multiupload.js"></script>
 <script type="text/javascript">
 $(window).load(pageInit);
-function pageInit()
-{
-	var uploadurl='../upload.php',ext='所有文件 (*.*)',size='2 MB',count=5,useget=0,params={}//默认值 
+function pageInit(){
+	var uploadurl='../upload.php',ext='所有文件 (*.*)',size='2 MB',count=5,useget=0,params={};//默认值 
 
 	uploadurl=getQuery('uploadurl')||uploadurl;ext=getQuery('ext')||ext;size=getQuery('size')||size;count=getQuery('count')||count;useget=getQuery('useget')||useget;
 	var tmpParams=getQuery('params');
-	if(tmpParams)
-	{
+	if(tmpParams){
 		try{eval("tmpParams=" + tmpParams);}catch(ex){};
 		params=$.extend({},params,tmpParams);
 	}
@@ -79,8 +77,7 @@ JSON.stringify = JSON.stringify || function (obj) {
 	if (t != "object" || obj === null) {
 		if (t == "string")obj = '"'+obj+'"';
 		return String(obj);
-	}
-	else {
+	} else {
 		var n, v, json = [], arr = (obj && obj.constructor == Array);
 		for (n in obj) {
 			v = obj[n]; t = typeof(v);
