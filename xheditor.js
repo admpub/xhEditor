@@ -872,7 +872,6 @@
 									case 'font':
 									case 'img':
 										return all;
-										break;
 								}
 							}else if(cleanPaste===2){
 								switch(tag){
